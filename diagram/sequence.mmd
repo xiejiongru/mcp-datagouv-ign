@@ -1,0 +1,23 @@
+sequenceDiagram
+    participant User as 用户
+    participant AI as AI助手
+    participant MCP as MCP服务器
+    participant Cache as 缓存系统
+    participant API as 外部API
+
+    User->>AI: 发送业务需求
+    AI->>AI: 分析需求
+    AI->>MCP: 调用合适的Tool
+    
+    alt 有缓存
+        MCP->>Cache: 检查缓存
+        Cache-->>MCP: 返回缓存数据
+    else 无缓存
+        MCP->>API: 发送API请求
+        API-->>MCP: 返回数据
+        MCP->>Cache: 存储缓存
+    end
+    
+    MCP-->>AI: 返回结果
+    AI->>AI: 处理结果
+    AI-->>User: 展示业务结果

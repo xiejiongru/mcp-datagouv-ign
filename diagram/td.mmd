@@ -1,0 +1,39 @@
+---
+config:
+  theme: default
+  look: classic
+---
+graph TD
+    subgraph "MCP服务器核心"
+        A[french_opendata_complete_mcp.py] --> |初始化| B[Server类]
+        B --> |注册| C[Tool工具函数]
+        B --> |执行| D[_execute_tool_logic]
+    end
+    subgraph "服务模块"
+        E[ign_geo_services.py] --> |地理服务| A
+        F[ign_layers_catalog.py] --> |图层目录| A
+        G[spatial_processing.py] --> |空间处理| A
+    end
+    subgraph "工具函数分类"
+        C --> H[Data.gouv.fr工具]
+        C --> I[IGN地理服务工具]
+        C --> J[IGN导航工具]
+        C --> K[高程数据工具]
+        C --> L[地址查询工具]
+        C --> M[空间处理工具]
+    end
+    subgraph "优化层"
+        N[response_cache.py] --> |缓存系统| A
+        O[异步处理] --> |asyncio| A
+        P[参数验证] --> |inputSchema| C
+    end
+    subgraph "外部API"
+        Q[Data.gouv.fr API]
+        R[IGN Géoplateforme]
+        S[API Adresse]
+        T[API Geo]
+    end
+    A --> |请求| Q
+    A --> |请求| R
+    A --> |请求| S
+    A --> |请求| T

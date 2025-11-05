@@ -1,0 +1,29 @@
+classDiagram
+    class Server {
+        +list_tools()
+        +call_tool()
+        -_execute_tool_logic()
+    }
+    
+    class Tool {
+        +name: string
+        +description: string
+        +inputSchema: object
+        +execute()
+    }
+
+    class IGNGeoServices {
+        +calculate_route()
+        +get_elevation()
+        +list_wmts_layers()
+    }
+
+    class CacheSystem {
+        +cache_response()
+        +get_cached_data()
+        +should_cache_response()
+    }
+
+    Server "1" *-- "*" Tool
+    Server "1" *-- "1" IGNGeoServices
+    Server "1" *-- "1" CacheSystem
